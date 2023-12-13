@@ -15,14 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, "./frontend/build")))
+
 // Schedule routes
 app.use('/api/schedule', scheduleRoutes);
 
-app.use("/", express.static("frontend/build"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend/build/index.html"));
-  });
+
+  app.use("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "./frontend/build/index.html"))
+  })
+
 
 
 // Database connection
