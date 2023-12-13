@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const argon2 = require('argon2'); // Import argon2
-
+const path = require('path');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 
 const app = express();
