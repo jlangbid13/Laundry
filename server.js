@@ -1,5 +1,4 @@
 require('dotenv').config();
-const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,10 +8,22 @@ const scheduleRoutes = require('./routes/scheduleRoutes');
 
 const app = express();
 
+
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Schedule routes
+app.use('/api/schedule', scheduleRoutes);
+
+app.use("/", express.static("frontend/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend/build/index.html"));
+  });
+
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
@@ -70,12 +81,6 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// Schedule routes
-app.use('/api/schedule', scheduleRoutes);
-
-    app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend/build/index.html"));
-     });
 
 // Server start
 app.listen(process.env.PORT, () => {
